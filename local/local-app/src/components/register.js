@@ -2,7 +2,7 @@ import React, { memo, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { NotificationManager } from 'react-notifications'
-
+import {register} from '../redux/action/action'
 function Register() {
     const initialState = {
         fields: {},
@@ -60,6 +60,7 @@ function Register() {
                 //       registerDetails.fields.email,
                 //       registerDetails.fields.password,
                 //     )
+                await register.
                     NotificationManager.success('Please check your inbox and verify your email address.')
                     // res.user.sendEmailVerification({ url: getContinueURL(location.search) })
                     setLoading(false)
