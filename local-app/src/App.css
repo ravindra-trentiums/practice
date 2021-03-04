@@ -1,0 +1,130 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  min-height: 100vh;
+  font-family: Hack, monospace;
+}
+
+div {
+  color: #727272;
+  text-align: center;
+}
+
+p {
+  margin: 16px;
+  font-size: 46px;
+  color: #ccc;
+  text-transform: uppercase;
+  font-weight: 200;
+  transition: all 1s ease-in-out;
+  position: relative;
+}
+
+nav {
+  margin: 25px;
+  background: #f9f9f9;
+  padding: 16px;
+ 
+}
+.menuItems {
+  list-style: none;
+  display: flex;
+}
+li {
+  margin: 30px;
+}
+a {
+  text-decoration: none;
+  color: #8f8f8f;
+  font-size: 24px;
+  font-weight: 400;
+  transition: all 0.5s ease-in-out;
+  position: relative;
+  text-transform: uppercase;
+}
+.menuItems::before {
+  content: attr(data-item);
+  transition: 0.5s;
+  color: #8254ff;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 0;
+  overflow: hidden;
+}
+.page_container {
+  display: flex;
+  min-height: calc(100vh - 90px);
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+}
+.box {
+  margin: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 0px;
+  height: fit-content;
+  border-radius: 10px;
+  box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.1);
+  padding: 20px;
+  width: 33rem;
+  background-color: #ffffff;
+}
+.imgContainer {
+  display: flex;
+  justify-content: center;
+}
+.button {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  background-color: #6dbd8e;
+  color: #ffffff;
+  padding: 0.4rem;
+}
+.button:active {
+  background-color: #7dce9f;
+}
+.buttonText {
+  display: flex;
+  color: #ffffff;
+}
+.row{
+     display: flex; 
+     flex-wrap: wrap; 
+     margin-right: -15px; 
+     margin-left: -15px; 
+}
+footer {
+  position: absolute;
+  display: flex;
+  font-size: 12px;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+  font-size: 14px;
+  background-color: #f1f1f1;
+  color: #000000;
+  text-align: center;
+  left:0px;
+
+}
+footer>a{
+  text-decoration: none;
+  color: inherit;
+  border-bottom: 1px solid;
+}
