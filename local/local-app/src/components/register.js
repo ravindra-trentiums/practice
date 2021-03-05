@@ -2,7 +2,7 @@ import React, { memo, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { NotificationManager } from 'react-notifications'
-import {register} from '../redux/action/action'
+import * as actions from '../redux/action/action'
 function Register() {
     const initialState = {
         fields: {},
@@ -10,7 +10,7 @@ function Register() {
     }
     const [registerDetails, setRegisterDetails] = useState(initialState)
     const [loading, setLoading] = useState(false)
-    //   const dispatch = useDispatch()
+    const dispatch = useDispatch()
     const history = useHistory()
     const location = useLocation()
 
@@ -36,14 +36,14 @@ function Register() {
             errors['confirmPass'] = 'Confirm password should be at least 6 digits.\n'
         }
         if (fields['password'] !== fields['confirmPass']) {
-            console.log(fields['password'],fields['confirmPass'])
+            console.log(fields['password'], fields['confirmPass'])
             errors['password'] = ` `
             errors['confirmPass'] = `Password and confirm password doesn't matched.\n`
         }
         if (Object.keys(errors).length) {
-        NotificationManager.error(Object.values(errors))
-        console.log(Object.values(errors))
-        setRegisterDetails({ ...registerDetails, errors: errors })
+            NotificationManager.error(Object.values(errors))
+            console.log(Object.values(errors))
+            setRegisterDetails({ ...registerDetails, errors: errors })
             setLoading(false)
         }
         return Object.keys(errors).length > 0 ? false : true
@@ -56,14 +56,14 @@ function Register() {
             setLoading(true)
             e.preventDefault()
             if (handleValidation()) {
-                //     let res = await auth.createUserWithEmailAndPassword(
-                //       registerDetails.fields.email,
-                //       registerDetails.fields.password,
-                //     )
-                await register.
-                    NotificationManager.success('Please check your inbox and verify your email address.')
-                    // res.user.sendEmailVerification({ url: getContinueURL(location.search) })
-                    setLoading(false)
+                dispatch(actions.register(registerDetails.fields.name, registerDetails.fields.email, registerDetails.fields.gender, registerDetails.fields.password)).then(res => {
+                        if (res && res.status == 200) {
+                            history.push('/user')
+                        } else {
+                            console.log("lllllll")
+                        }
+                    }).catch(err => {
+                    })
             }
         } catch (error) {
 
@@ -119,8 +119,8 @@ function Register() {
                             <div class="form-group">
                                 <select class="form-control" id="gender">
                                     <option>Select Gender</option>
-                                    <option  value={registerDetails?.fields?.gender || ''}>Male</option>
-                                    <option  value={registerDetails?.fields?.gender || ''}>Female</option>
+                                    <option value={registerDetails?.fields?.gender || ''}>Male</option>
+                                    <option value={registerDetails?.fields?.gender || ''}>Female</option>
                                 </select>
                             </div>
                         </div>

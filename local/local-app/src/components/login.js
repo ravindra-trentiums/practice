@@ -2,7 +2,7 @@ import React, { memo, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { NotificationManager } from 'react-notifications'
-
+import * as actions from '../redux/action/action'
 
 function Login() {
     const initialState = {
@@ -11,7 +11,7 @@ function Login() {
     }
     const [loginDetails, setLoginDetails] = useState(initialState)
     const [loading, setLoading] = useState(false)
-    //   const dispatch = useDispatch()
+    const dispatch = useDispatch()
     const history = useHistory()
     const location = useLocation()
 
@@ -36,26 +36,23 @@ function Login() {
     }
 
     const handleSubmit = async (e) => {
-        if (loading) return
+        e.preventDefault()
+        // if (loading) return
         try {
-            setLoading(true)
-            e.preventDefault()
+            // setLoading(true)
             if (handleValidation()) {
-                //     let res = await auth.createUserWithEmailAndPassword(
-                //       registerDetails.fields.email,
-                //       registerDetails.fields.password,
-                //     )
-                //     NotificationManager.success('Please check your inbox and verify your email address.')
-                //     res.user.sendEmailVerification({ url: getContinueURL(location.search) })
-                //     setLoading(false)
+                dispatch(actions.login(loginDetails.fields.email,
+                    loginDetails.fields.password)).then(res => {
+                        if(res&&res.status==200){
+                            history.push('/user')
+                        }else{
+                            console.log("lllllll")
+                        }
+                    }).catch(err => {
+                    })
             }
         } catch (error) {
-            NotificationManager.error(
-                error?.message ||
-                error?.response?.data?.messsage ||
-                error.toString() ||
-                'Server error. Please try again',
-            )
+            console.log(error)
             setLoading(false)
         }
     }
@@ -71,10 +68,10 @@ function Login() {
     return (
         <div className="page_container">
             <div className="box mb-5">
-            <div className="col-md-12 mt-3 px-0"><h3>Login here...</h3></div>
+                <div className="col-md-12 mt-3 px-0"><h3>Login here...</h3></div>
                 <form className="form-signin " onSubmit={handleSubmit}>
                     <div className="row mt-3">
-                        <div className="col-md-12 mt-3 px-0"> 
+                        <div className="col-md-12 mt-3 px-0">
                             <input
                                 type="email"
                                 id="email"

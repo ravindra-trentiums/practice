@@ -18,8 +18,9 @@ function Router() {
 //     navOption: state.sidebar.navOption,
 //     uid: state.user.uid,
 //   }))
-  return (
+return (
     <div className={`main_container`}>
+  {console.log("jhghjkl;hg")}
       <Switch>
         <Redirect from="//*" to="/*" />
         <Route exact path="/" component={Home} />
