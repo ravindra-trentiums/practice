@@ -117,10 +117,10 @@ function Register() {
                     <div className="row mt-3">
                         <div className="col-md-12 mt-3 px-0">
                             <div class="form-group">
-                                <select class="form-control" id="gender">
+                                <select value={registerDetails?.fields?.gender || ''}  onChange={(e) => handleChange(e, 'gender')} class="form-control" id="gender">
                                     <option>Select Gender</option>
-                                    <option value={registerDetails?.fields?.gender || ''}>Male</option>
-                                    <option value={registerDetails?.fields?.gender || ''}>Female</option>
+                                    <option value={'Male'}>Male</option>
+                                    <option value={'Female'}>Female</option>
                                 </select>
                             </div>
                         </div>

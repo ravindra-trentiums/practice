@@ -1,7 +1,7 @@
 import axios from 'axios';
 // import store from './store';
 
-const baseURL = 'https://devapi.analytixlabs.co.in';
+const baseURL = 'http://localhost:3000';
 
 export const Api = axios.create({
   baseURL,
@@ -12,7 +12,7 @@ export const Api = axios.create({
 
 export const Urls = {
   baseURL,
-  login: '/secure/login',
+  login: '/login',
   register: '/register',
   
 };

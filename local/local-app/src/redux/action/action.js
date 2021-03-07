@@ -41,11 +41,11 @@ export const login = (email, password) => dispatch => {
 }
 
 export const register = (name, email, gender, password) => dispatch => {
-    dispatch(Type.POST_REGISTER_REQUEST);
-    return axios.post(Urls.register, { name, email, gender, password }).then(response => {
-        console.log(response, "object1")
+    console.log(axios.post(Urls.register), "object1")
+    dispatch({type:Type.POST_REGISTER_REQUEST});
+        return Api.post(Urls.register, {name, email, gender, password }).then(response => {
         if (response && response.status == 200) {
-            dispatch({ type: Type.POST_LOGIN_SUCCESS, payload: response });
+            dispatch({ type: Type.POST_REGISTER_SUCCESS, payload: response });
             NotificationManager.success('login successfully.');
         } else {
             NotificationManager.error(
@@ -58,7 +58,7 @@ export const register = (name, email, gender, password) => dispatch => {
         }
     }).catch(error => {
         console.log(error.response, "object")
-        dispatch({ type: Type.POST_LOGIN_FAILED, payload: error.response });
+        dispatch({ type: Type.POST_REGISTER_FAILED, payload: error.response });
         const { response } = error;
         NotificationManager.error(
             response?.data?.message ||
