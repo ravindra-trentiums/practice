@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 function Connection() {
 
-	mongoose.connect('mongodb://localhost/machine-test', {
+	mongoose.connect('mongodb://localhost/testing', {
 		useUnifiedTopology: true,
 		useNewUrlParser: true,
 		useFindAndModify: false,

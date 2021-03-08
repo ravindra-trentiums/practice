@@ -38,7 +38,7 @@ async function login(req, res, next) {
                 res.json({ token: token })
             } else {
                 res.status(400).send(
-                    { message: 'Error while registration.' }
+                    { message: 'Error while login.' }
                 );
             }
         }
@@ -68,7 +68,7 @@ async function register(req, res, next) {
         } else {
             var register = await User.create(reqBody);
             if (register) {
-                res.json({
+                res.status(200).json({
                     message: 'User created successfully',
                 });
             } else {
@@ -78,6 +78,7 @@ async function register(req, res, next) {
             }
         }
     } catch (errors) {
+        console.log(errors)
         return res.status(500).json(errors.message);
     }
 }

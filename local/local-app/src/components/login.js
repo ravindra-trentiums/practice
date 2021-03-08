@@ -45,7 +45,7 @@ function Login() {
                         if (res && res.status === 200) {
                             history.push('/user')
                         } else {
-                            console.log("lllllll")
+                            history.push('/login')
                         }
                     }).catch(err => {
                     })

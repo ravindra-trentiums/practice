@@ -50,20 +50,19 @@ function Register() {
     }
 
     const handleSubmit = async (e) => {
-        console.log(e)
         if (loading) return
         try {
             setLoading(true)
             e.preventDefault()
             if (handleValidation()) {
                 dispatch(actions.register(registerDetails.fields.name, registerDetails.fields.email, registerDetails.fields.gender, registerDetails.fields.password)).then(res => {
-                        if (res && res.status === 200) {
-                            history.push('/user')
-                        } else {
-                            console.log("lllllll")
-                        }
-                    }).catch(err => {
-                    })
+                    if (res && res.status === 200) {
+                        history.push('/login')
+                    } else {
+                        history.push('/register')
+                    }
+                }).catch(err => {
+                })
             }
         } catch (error) {
             NotificationManager.error(
@@ -116,7 +115,7 @@ function Register() {
                     <div className="row mt-3">
                         <div className="col-md-12 mt-3 px-0">
                             <div class="form-group">
-                                <select value={registerDetails?.fields?.gender || ''}  onChange={(e) => handleChange(e, 'gender')} class="form-control" id="gender">
+                                <select value={registerDetails?.fields?.gender || ''} onChange={(e) => handleChange(e, 'gender')} class="form-control" id="gender">
                                     <option>Select Gender</option>
                                     <option value={'Male'}>Male</option>
                                     <option value={'Female'}>Female</option>
@@ -138,7 +137,6 @@ function Register() {
                         </div>
                     </div>
                     <div className="row mt-3">
-                        {console.log(registerDetails?.errors?.confirmPass)}
                         <div className="col-md-12 mt-3 px-0">
                             <input
                                 type="password"
