@@ -84,9 +84,9 @@ function Register() {
         setRegisterDetails({ ...registerDetails, fields, errors })
     }
     return (
-        <div className="page_container">
-            <div className="box mb-5">
-                <div className="col-md-12 mt-3 px-0"><h3>Register here...</h3></div>
+        <div id="content_panel">
+            <div className="mb-5">
+                <div className="col-md-12 mt-3 px-0"><h1>Register here...</h1></div>
                 <form className="form-signin " onSubmit={handleSubmit}>
                     <div className="row">
                         <div className="col-md-12 mt-3 px-0">
@@ -123,7 +123,6 @@ function Register() {
                             </div>
                         </div>
                     </div>
-
                     <div className="row mt-3 ">
                         <div className="col-md-12 mt-3 px-0">
                             <input
@@ -157,21 +156,22 @@ function Register() {
                     </div>
 
                 </form>
-            </div>
-            <div className="mt-2 mb-3">
-                Already have an account ?{' '}
-                <span
-                    className="navLink mt-2"
-                    onClick={() =>
-                        history.push({
-                            pathname: 'login',
-                            search: location.search,
-                        })
-                    }
-                >
-                    Sign In
+                <div className="mt-2 mb-3">
+                    Already have an account ?{' '}
+                    <span
+                        className="navLink mt-2"
+                        onClick={() =>
+                            history.push({
+                                pathname: 'login',
+                                search: location.search,
+                            })
+                        }
+                    >
+                        Sign In
         </span>
+                </div>  
             </div>
+
         </div>
     )
 }

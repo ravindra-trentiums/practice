@@ -12,17 +12,12 @@ export function authentication(state = initialState, action) {
         token: action.payload.data.token
       }
       return state
-    case Type.POST_REGISTER_SUCCESS:
+    case Type.USER_LOGOUT:
       state = {
         ...state,
-        token: action.payload.data.token
+        token: ''
       }
       return state
-    case Type.USER_LOGOUT:
-      state={
-        ...state,
-        token:''
-      }
     default:
       return state
   }

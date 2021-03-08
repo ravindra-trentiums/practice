@@ -8,14 +8,20 @@ function Navbar() {
         token: state.authentication.token,
     }))
     return (
-        <div className="header p-0 m-0">
-            <p data-item='Rohit'>PRACTICE</p>
-            <section>
-                <nav>
-                    <ul class="menuItems">
-                        <li> <Link data-item='Home' to={"/"}>Home</Link></li>
+        <div className="header">
+            <div id="header_section">
+                <div id="search_box">
+                    <form method="get" action="#">
+                        <input type="text" name="searchfield" id="search_field" title="searchfield" />
+                        <input type="submit" name="search" value="" alt="Search" id="search_button" title="Search" />
+                    </form>
+                </div>
+            </div>
+            <div id="menu_panel">
+                <div id="menu_section">
+                    <ul>
+                    <li> <Link data-item='Home' to={"/"}>Home</Link></li>
                         <li><Link data-item='Service' to={"/"}>Service</Link></li>
-                        <li><Link data-item='Contact' to={"/"}>Contact</Link></li>
                         <li><Link data-item='About' to={"/"}>About</Link></li>
                         {token ? (
                             <>
@@ -28,8 +34,8 @@ function Navbar() {
                             </>
                         )}
                     </ul>
-                </nav>
-            </section>
+                </div>
+            </div>
         </div>
     )
 }

@@ -65,9 +65,9 @@ function Login() {
         setLoginDetails({ ...loginDetails, fields, errors })
     }
     return (
-        <div className="page_container">
-            <div className="box mb-5">
-                <div className="col-md-12 mt-3 px-0"><h3>Login here...</h3></div>
+        <div id="content_panel">
+            <div className=" mb-5">
+                <div className="col-md-12 mt-3 px-0" ><h1>Login here...</h1></div>
                 <form className="form-signin " onSubmit={handleSubmit}>
                     <div className="row mt-3">
                         <div className="col-md-12 mt-3 px-0">

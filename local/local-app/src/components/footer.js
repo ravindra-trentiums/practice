@@ -2,13 +2,10 @@ import React from 'react'
 
 function Footer() {
     return (
-        <div>
-            <footer>
-                <div className="footer-copyright text-center">&copy; Developed  by
-    <a href="#" className="white-text" target="_blank"> Ravindra</a>.
-  </div>
-            </footer>
-        </div>
+       
+            <div id="footer_panel">
+            <div id="footer_section"> Copyright © 2024  | Designed by <a href="#">Ravindra</a> </div>
+          </div>
     )
 }
 
