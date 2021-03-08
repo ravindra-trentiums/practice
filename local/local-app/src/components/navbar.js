@@ -20,17 +20,17 @@ function Navbar() {
             <div id="menu_panel">
                 <div id="menu_section">
                     <ul>
-                    <li> <Link data-item='Home' to={"/"}>Home</Link></li>
-                        <li><Link data-item='Service' to={"/"}>Service</Link></li>
-                        <li><Link data-item='About' to={"/"}>About</Link></li>
+                        <li> <Link to={"/"}>Home</Link></li>
+                        <li><Link to={"/"}>About</Link></li>
                         {token ? (
                             <>
-                                <li><Link data-item='logout' onClick={() => dispatch(actions.logout())} to={"/"}>Logout</Link></li>
+                                <li><Link to={"/blogs"}>Manage Blogs</Link></li>
+                                <li><Link onClick={() => dispatch(actions.logout())} to={"/"}>Logout</Link></li>
                             </>
                         ) : (
                             <>
-                                <li><Link data-item='signUp' to={"/login"}>Sign in</Link></li>
-                                <li><Link data-item='signIn' to={"/register"}>Sign up</Link></li>
+                                <li><Link to={"/login"}>Sign in</Link></li>
+                                <li><Link to={"/register"}>Sign up</Link></li>
                             </>
                         )}
                     </ul>

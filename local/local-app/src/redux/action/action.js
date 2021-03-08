@@ -58,6 +58,25 @@ export const register = (name, email, gender, password) => dispatch => {
         );
     })
 }
+export const addBlog = (tittle, description, blogImage) => dispatch => {
+    return Api.post(Urls.blog, {tittle, description, blogImage }).then(response => {
+        if (response && response.status === 200) {
+            NotificationManager.success('Blog created successfully.');
+        } else {
+            NotificationManager.error(
+                response?.data?.message ||
+                'Something went wrong. Please try again',
+            );
+        }
+    }).catch(error => {
+        const { response } = error;
+        NotificationManager.error(
+            response?.data?.message ||
+            'Something went wrong. Please try again',
+        );
+    })
+}
+
 export const logout = (email, password) => dispatch => {
     dispatch({ type: Type.USER_LOGOUT, });
 }

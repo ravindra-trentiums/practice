@@ -3,7 +3,7 @@ import post from "../assests/post/image_01.jpg";
 
 function Home() {
     return (
-        <div classNameName="data">
+        <div className="data">
             <div id="content_panel">
                 <div id="content_right" style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
                     <div className="post_section">

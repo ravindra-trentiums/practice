@@ -43,7 +43,7 @@ function Login() {
                 dispatch(actions.login(loginDetails.fields.email,
                     loginDetails.fields.password)).then(res => {
                         if (res && res.status === 200) {
-                            history.push('/user')
+                            history.push('/')
                         } else {
                             history.push('/login')
                         }
