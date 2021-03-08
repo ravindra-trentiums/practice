@@ -7,14 +7,18 @@ const initialState = {
 export function authentication(state = initialState, action) {
   switch (action.type) {
     case Type.POST_LOGIN_SUCCESS:
-      console.log(action.payload.data.user)
-      const { token } = action.payload.data.user;
-      return { token, user: undefined };
+      state = {
+        ...state,
+        token: action.payload.data.token
+      }
+      return state
     case Type.POST_REGISTER_SUCCESS:
-      return {
-        auth: action.auth,
-        token: action.token
-      };
+      state = {
+        ...state,
+        token: action.payload.data.token
+      }
+      return state
+
     default:
       return state
   }

@@ -1,5 +1,5 @@
 import React, { memo, useState } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { NotificationManager } from 'react-notifications'
 import * as actions from '../redux/action/action'
@@ -13,7 +13,6 @@ function Login() {
     const [loading, setLoading] = useState(false)
     const dispatch = useDispatch()
     const history = useHistory()
-    const location = useLocation()
 
     const handleValidation = () => {
         let fields = loginDetails.fields
@@ -43,9 +42,9 @@ function Login() {
             if (handleValidation()) {
                 dispatch(actions.login(loginDetails.fields.email,
                     loginDetails.fields.password)).then(res => {
-                        if(res&&res.status==200){
+                        if (res && res.status === 200) {
                             history.push('/user')
-                        }else{
+                        } else {
                             console.log("lllllll")
                         }
                     }).catch(err => {
@@ -106,4 +105,4 @@ function Login() {
     )
 }
 
-export default Login
+export default memo(Login)

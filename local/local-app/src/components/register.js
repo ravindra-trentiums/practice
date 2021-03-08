@@ -57,7 +57,7 @@ function Register() {
             e.preventDefault()
             if (handleValidation()) {
                 dispatch(actions.register(registerDetails.fields.name, registerDetails.fields.email, registerDetails.fields.gender, registerDetails.fields.password)).then(res => {
-                        if (res && res.status == 200) {
+                        if (res && res.status === 200) {
                             history.push('/user')
                         } else {
                             console.log("lllllll")
@@ -66,7 +66,6 @@ function Register() {
                     })
             }
         } catch (error) {
-
             NotificationManager.error(
                 error?.message ||
                 error?.response?.data?.messsage ||
@@ -179,4 +178,4 @@ function Register() {
     )
 }
 
-export default Register
+export default memo(Register)

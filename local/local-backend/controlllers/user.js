@@ -1,5 +1,6 @@
 const validate = require('../validation/index')
 const User = require('../models/user')
+const jwt = require('jsonwebtoken');
 module.exports = {
     register: register,
     login: login
@@ -26,7 +27,15 @@ async function login(req, res, next) {
         } else {
             let user = await User.findOne({ email: reqBody.email, password: reqBody.password });
             if (user) {
-                res.json(user)
+                console.log(user)
+                let payload = {
+                    id: user._id,
+                    email: user.email
+                }
+                let token = jwt.sign(payload, 'tokenKey', {
+                    expiresIn: 30 * 24 * 60 * 60,
+                });
+                res.json({ token: token })
             } else {
                 res.status(400).send(
                     { message: 'Error while registration.' }

@@ -9,8 +9,7 @@ export const login = (email, password) => dispatch => {
         console.log(email, "jhg", password)
         dispatch({ type: Type.POST_LOGIN_REQUEST });
         return Api.post(Urls.login, { email, password }).then(response => {
-            console.log(response, "object1")
-            if (response && response.status == 200) {
+            if (response && response.status === 200) {
                 dispatch({ type: Type.POST_LOGIN_SUCCESS, payload: response });
                 NotificationManager.success('login successfully.');
             } else {
@@ -44,7 +43,7 @@ export const register = (name, email, gender, password) => dispatch => {
     console.log(axios.post(Urls.register), "object1")
     dispatch({type:Type.POST_REGISTER_REQUEST});
         return Api.post(Urls.register, {name, email, gender, password }).then(response => {
-        if (response && response.status == 200) {
+        if (response && response.status === 200) {
             dispatch({ type: Type.POST_REGISTER_SUCCESS, payload: response });
             NotificationManager.success('login successfully.');
         } else {
