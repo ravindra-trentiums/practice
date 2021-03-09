@@ -1,22 +1,29 @@
 const mongoose = require('mongoose');
 
-const Post = mongoose.model('Post', new mongoose.Schema(
+const Blog = mongoose.model('Blog', new mongoose.Schema(
 	{
-        title: {
+        tittle: {
             type: String,
             required: true,
             minlength: 3,
             maxlength: 255,
             trim: true
         },
-        body: {
+        description: {
             type: String,
             required: true,
-            minlength: 10,
+            minlength: 3,
             maxlength: 6500,
+            trim: true
+        },
+        blogImage: {
+            type: String,
+            required: true,
+            minlength: 3,
+            maxlength: 255,
             trim: true
         }
 	},
 	{ timestamps: true, versionKey: false }
 ));
-module.exports = Post
+module.exports = Blog

@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 const app = express();
+const fileupload = require('express-fileupload');
 
 
 app.use(logger('dev'));
@@ -14,6 +15,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
+app.use(fileupload());
+
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header(
@@ -27,7 +30,6 @@ app.use((req, res, next) => {
 
 var nonProtectedRouter = express.Router()
 var appRouter=express.Router()
-
 
 app.use('/app' , appRouter);
 app.use("/" , nonProtectedRouter)

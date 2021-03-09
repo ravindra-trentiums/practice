@@ -1,7 +1,10 @@
 import React from 'react'
 import post from "../assests/post/image_01.jpg";
-
+import { useSelector } from 'react-redux'
 function Home() {
+    const { token } = useSelector((state) => ({
+        token: state.authentication.token,
+    }))
     return (
         <div className="data">
             <div id="content_panel">
@@ -16,28 +19,30 @@ function Home() {
                             <div className="post_body"> <img src={post} alt="" />
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus nec dui. Donec nec neque ut quam sodales feugiat. Nam vehicula dapibus lectus. Integer imperdiet pretium dolor. Vivamus felis. Vivamus vulputate vehicula mi. Maecenas consectetur purus. Aliquam tristique lacus in sapien. Suspendisse potenti. Ut sed pede. Nullam vitae tellus. Sed ultrices. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
                             </div>
-                            <div className="leave_comment_section">
-                                <div className="leave_comment_section_title">Leave a Comment</div>
-                                <form>
-                                    <div className="form_row">
-                                        <label>
-                                            Email
+                            {token && (
+                                <div className="leave_comment_section">
+                                    <div className="leave_comment_section_title">Leave a Comment</div>
+                                    <form>
+                                        <div className="form_row">
+                                            <label>
+                                                Email
                                 </label><br />
-                                        <input type="text" name="fullname" id="fullname"></input>
-                                    </div>
-                                    <div className="form_row">
-                                        <label>
-                                            Your comment
+                                            <input type="text" name="fullname" id="fullname"></input>
+                                        </div>
+                                        <div className="form_row">
+                                            <label>
+                                                Your comment
                                 </label><br />
-                                        <textarea name="comment"></textarea>
-                                    </div>
-                                    <input type="submit" name="Submit" value="Submit" class="submit_btn"></input>
-                                </form>
-                            </div>
+                                            <textarea name="comment"></textarea>
+                                        </div>
+                                        <input type="submit" name="Submit" value="Submit" class="submit_btn"></input>
+                                    </form>
+                                </div>
+                            )}
                         </div>
                     </div>
                     <div className="cleaner_with_height">&nbsp;</div>
-                
+
                 </div>
                 <div className="cleaner_with_height">&nbsp;</div>
             </div>

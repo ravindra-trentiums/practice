@@ -1,4 +1,4 @@
-const user = require('../controlllers/user')
+const user = require('../controllers/user')
 
 module.exports = {
   configure: function (app) {

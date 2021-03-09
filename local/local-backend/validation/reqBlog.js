@@ -1,44 +1,24 @@
-const paymentConstants = require('../../../constants/payments');
-
 module.exports = {
-  validateOrderReq: validateOrderReq
+  validateBlogReq: validateBlogReq,
 };
 
-function validateOrderReq(body) {
+function validateBlogReq(body) {
   var validated = {};
   var refused = false;
   var errors = {};
   var missingParams = '';
-
   if (typeof body === 'object' && body !== null && Object.keys(body).length) {
-    if (body.userID == null) {
-      missingParams = addToMissingParams(missingParams, 'userID');
+    if (body.tittle == null) {
+      missingParams = missingParams + 'tittle';
     }
 
-    if (body.learningModeID == null) {
-      missingParams = missingParams + ', learningModeID';
+    if (body.description == null) {
+      missingParams = addToMissingParams(missingParams, 'description');
     }
 
-    if (body.courseBatchID == null) {
-      missingParams = missingParams + ', courseBatchID';
+    if (body.blogImage == null) {
+      missingParams = addToMissingParams(missingParams, 'blogImage');
     }
-
-    if (body.currencyType == null) {
-      body.currencyType = paymentConstants.CURRENCY_TYPE_INR;
-    } else {
-      body.currencyType = parseInt(body.currencyType);
-    }
-
-    if (body.paymentType == null) {
-      missingParams = addToMissingParams(missingParams, 'paymentType');
-    }
-
-    if (body.isInstallment == null) {
-      body.isInstallment = false;
-    } else {
-      body.isInstallment = parseInt(body.isInstallment);
-    }
-
     if (missingParams.trim().length > 0) {
       errors.request = `Invalid request. Body is missing arguments ${missingParams}.`;
     }
@@ -59,13 +39,13 @@ function validateOrderReq(body) {
     }
   } else {
     errors = undefined;
-    refused = true;
+    refused = true; 
   }
 
   return {
     validated: validated,
     refused: refused,
-    errors: errors
+    errors: errors,
   };
 }
 

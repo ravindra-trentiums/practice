@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect,useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { NotificationManager } from 'react-notifications'
@@ -11,25 +11,35 @@ function Blog() {
         errors: {},
     }
     const [blogDetails, setBlogDetails] = useState(initialState)
-    const toBase64 = file =>
-        new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = error => reject(error);
-        });
+    // const toBase64 = file =>
+    //     new Promise((resolve, reject) => {
+    //         const reader = new FileReader();
+    //         reader.readAsDataURL(file);
+    //         reader.onload = () => resolve(reader.result);
+    //         reader.onerror = error => reject(error);
+    //     });
+    // const test = () => {
+    //     console.log(
+    //         "Test this.state.fileUploadOngoing=" + this.state.fileUploadOngoing
+    //     );
 
+    //     formData.append("test", "StringValueTest");
+
+    //     const options = {
+    //         method: "POST",
+    //         body: formData
+    //     };
+    //     fetch("http://localhost:5000/ui/upload/file", options);
+    // }
+    
     const handleValidation = () => {
         let fields = blogDetails.fields
         let errors = {}
-        if (!fields['email'] || !fields['email'].trim()) {
-            errors['email'] = 'Email cannot be empty.\n'
+        if (!fields['tittle'] || !fields['tittle'].trim()) {
+            errors['tittle'] = 'Tittle cannot be empty.\n'
         }
-        if (!fields['password'] || !fields['password'].trim()) {
-            errors['password'] = 'Password cannot be empty.\n'
-        }
-        if (fields['password'] && fields['password'].length < 5) {
-            errors['password'] = 'Password should be at least 5 digits.\n'
+        if (!fields['description'] || !fields['description'].trim()) {
+            errors['description'] = 'Description cannot be empty.\n'
         }
         if (Object.keys(errors).length) {
             NotificationManager.error(Object.values(errors))
@@ -45,8 +55,16 @@ function Blog() {
         try {
             // setLoading(true)
             if (handleValidation()) {
-                dispatch(actions.addBlog(blogDetails.fields.tittle,
-                    blogDetails.fields.description, blogDetails.fields.blogImage)).then(res => {
+                const fileInput = document.querySelector("#blogImage");
+                const body = new FormData();
+                Object.keys(blogDetails.fields).forEach(k => {
+                    body.append(k, blogDetails.fields[k]);
+                  });
+              
+                body.append("file", fileInput.files[0]);
+                dispatch(actions.addBlog(body
+                        )).then(res => {
+                            console.log(res)
                         if (res && res.status === 200) {
                             history.push('/')
                         } else {
@@ -64,20 +82,32 @@ function Blog() {
     const handleChange = async (e, field) => {
         let fields = blogDetails.fields
         let errors = blogDetails.errors
-        if (field == "blogImage") {
-            let file = await toBase64(e.target.files[0]);
-            let fileData = {
-                base_file: e.target.files[0],
-                name: e.target.files[0].name,
-                data: file.split(',')[1],
-            };
-            fields[field] = fileData
-        } else {
-            fields[field] = e.target.value
-        }
+        // if (field == "blogImage") {
+        //     let file = await toBase64(e.target.files[0]);
+        //     let fileData = {
+        //         base_file: e.target.files[0],
+        //         name: e.target.files[0].name,
+        //         data: file.split(',')[1],
+        //     };
+        //     fields[field] = fileData
+        // } else {
+        //     fields[field] = e.target.value
+        // }
+        fields[field] = e.target.value
         errors[field] = undefined
         setBlogDetails({ ...blogDetails, fields, errors })
     }
+    useEffect(()=>{
+        dispatch(actions.getBlog()).then(res => {
+                console.log(res)
+            if (res && res.status === 200) {
+                
+            } else {
+
+            }
+        }).catch(err => {
+        })
+    })
     return (
         <div id="content_panel">
             <div className="blog_left" style={{ flex: "0.25", borderRight: "1px solid black" }}>

@@ -3,6 +3,7 @@ import * as Type from '../types'
 const initialState = {
   user: undefined,
   token: undefined,
+  blog: undefined,
 };
 export function authentication(state = initialState, action) {
   switch (action.type) {
@@ -16,6 +17,12 @@ export function authentication(state = initialState, action) {
       state = {
         ...state,
         token: ''
+      }
+      return state
+    case Type.GET_BLOG_SUCCESS:
+      state = {
+        ...state,
+        blog: action.payload
       }
       return state
     default:

@@ -24,7 +24,7 @@ function Navbar() {
                         <li><Link to={"/"}>About</Link></li>
                         {token ? (
                             <>
-                                <li><Link to={"/blogs"}>Manage Blogs</Link></li>
+                                <li><Link to={"/blogs"}>Blogs</Link></li>
                                 <li><Link onClick={() => dispatch(actions.logout())} to={"/"}>Logout</Link></li>
                             </>
                         ) : (

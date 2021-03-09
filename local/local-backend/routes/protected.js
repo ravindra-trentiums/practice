@@ -1,9 +1,10 @@
 
-const user= require('../controlllers/user')
+const blog= require('../controllers/blog')
 
 module.exports = {
   configure: function (app) {
-    app.get('/jkhuikhj',ensureAuthenticated,user.login);
+    app.post('/blog', blog.createBlog);
+    app.post('/blog', blog.getBlogs);
   }
 }   
 function ensureAuthenticated(req, res, next) {
