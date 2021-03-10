@@ -4,7 +4,8 @@ const blog= require('../controllers/blog')
 module.exports = {
   configure: function (app) {
     app.post('/blog', blog.createBlog);
-    app.post('/blog', blog.getBlogs);
+    app.get('/blog', blog.getBlogs);
+    app.delete('/blog',blog.deleteBlog );
   }
 }   
 function ensureAuthenticated(req, res, next) {

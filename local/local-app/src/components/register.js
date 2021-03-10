@@ -2,7 +2,7 @@ import React, { memo, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { NotificationManager } from 'react-notifications'
-import * as actions from '../redux/action/action'
+import * as actions from '../redux/action/userAction'
 function Register() {
     const initialState = {
         fields: {},

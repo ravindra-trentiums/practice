@@ -20,6 +20,7 @@ export function authentication(state = initialState, action) {
       }
       return state
     case Type.GET_BLOG_SUCCESS:
+      console.log(action.payload)
       state = {
         ...state,
         blog: action.payload

@@ -1,37 +1,28 @@
-import React, { useEffect,useState } from 'react'
-import { useHistory } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+// import { useHistory } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { NotificationManager } from 'react-notifications'
-import * as actions from "../redux/action/action"
+import * as actions from "../redux/action/blogAction"
+import editIcon from "../assests/icons/edit-icon.png"
+import delIcon from "../assests/icons/Empty-icon.png"
+import BlogModal from './blogModal'
+import { API_URL } from "../config"
+
 function Blog() {
     const dispatch = useDispatch()
-    const history = useHistory()
+    // const history = useHistory()
     const initialState = {
         fields: {},
         errors: {},
     }
+    const { blog } = useSelector((state) => ({
+        blog: state.authentication.blog,
+    }))
+    const [selectedBlog, setSelectedBlog] = useState({ showModal: false })
+    const [refreshPage, setRefreshPage] = useState(false)
+    const [isHome, setIsHome] = useState(false)
     const [blogDetails, setBlogDetails] = useState(initialState)
-    // const toBase64 = file =>
-    //     new Promise((resolve, reject) => {
-    //         const reader = new FileReader();
-    //         reader.readAsDataURL(file);
-    //         reader.onload = () => resolve(reader.result);
-    //         reader.onerror = error => reject(error);
-    //     });
-    // const test = () => {
-    //     console.log(
-    //         "Test this.state.fileUploadOngoing=" + this.state.fileUploadOngoing
-    //     );
 
-    //     formData.append("test", "StringValueTest");
-
-    //     const options = {
-    //         method: "POST",
-    //         body: formData
-    //     };
-    //     fetch("http://localhost:5000/ui/upload/file", options);
-    // }
-    
     const handleValidation = () => {
         let fields = blogDetails.fields
         let errors = {}
@@ -48,7 +39,10 @@ function Blog() {
         }
         return Object.keys(errors).length > 0 ? false : true
     }
-
+    const handleDelete = (id) => {
+        dispatch(actions.deleteBlog({ id: id }))
+        setRefreshPage(true)
+    }
     const handleSubmit = (e) => {
         e.preventDefault()
         // if (loading) return
@@ -59,19 +53,18 @@ function Blog() {
                 const body = new FormData();
                 Object.keys(blogDetails.fields).forEach(k => {
                     body.append(k, blogDetails.fields[k]);
-                  });
-              
+                });
+
                 body.append("file", fileInput.files[0]);
                 dispatch(actions.addBlog(body
-                        )).then(res => {
-                            console.log(res)
-                        if (res && res.status === 200) {
-                            history.push('/')
-                        } else {
-                            history.push('/login')
-                        }
-                    }).catch(err => {
-                    })
+                )).then(res => {
+                    if (res && res.status === 200) {
+                        setRefreshPage(true)
+                    } else {
+                        setRefreshPage(true)
+                    }
+                }).catch(err => {
+                })
             }
         } catch (error) {
             console.log(error)
@@ -80,8 +73,18 @@ function Blog() {
     }
 
     const handleChange = async (e, field) => {
+        console.log(e.target.value)
         let fields = blogDetails.fields
         let errors = blogDetails.errors
+        if (field === "isHome") {
+            isHome === true ? (setIsHome(false)) : (setIsHome(true))
+            fields["isHome"] = !isHome
+        } else {
+            fields[field] = e.target.value
+            errors[field] = undefined
+        }
+        setBlogDetails({ ...blogDetails, fields, errors })
+
         // if (field == "blogImage") {
         //     let file = await toBase64(e.target.files[0]);
         //     let fileData = {
@@ -93,23 +96,17 @@ function Blog() {
         // } else {
         //     fields[field] = e.target.value
         // }
-        fields[field] = e.target.value
-        errors[field] = undefined
-        setBlogDetails({ ...blogDetails, fields, errors })
     }
-    useEffect(()=>{
-        dispatch(actions.getBlog()).then(res => {
-                console.log(res)
-            if (res && res.status === 200) {
-                
-            } else {
-
-            }
-        }).catch(err => {
-        })
-    })
+    useEffect(() => {
+        setRefreshPage(false)
+        dispatch(actions.getBlog())
+    }, [refreshPage])
     return (
         <div id="content_panel">
+            <BlogModal
+                selectedBlog={selectedBlog}
+                setSelectedBlog={setSelectedBlog}
+            />
             <div className="blog_left" style={{ flex: "0.25", borderRight: "1px solid black" }}>
                 <form className="form-signin " style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }} onSubmit={handleSubmit}>
                     <h4 className="mt-3">Add New Blog Here</h4>
@@ -135,10 +132,18 @@ function Blog() {
                                 onChange={(e) => handleChange(e, 'description')}></textarea>
                         </div>
                     </div>
+                    <div className="row ">
+                        <div className="col-md-12 mt-3 ">
+                            <input type="checkbox" id="isHome" name="vehicle1" onChange={(e) => handleChange(e, 'isHome')} />
+                            <label for="isHome">isHome</label>
+                        </div>
+                    </div>
                     <div className="row ml-4 mt-2">
-                        <div class="custom-file" style={{ width: "80%" }}>
-                            <input type="file" class="custom-file-input" id="blogImage" onChange={(e) => handleChange(e, 'blogImage')} />
-                            <label class="custom-file-label" for="blogImage">Choose file</label>
+                        <div className="col-md-12 mt-1 ">
+                            <div class="custom-file" style={{ width: "80%" }}>
+                                <input type="file" class="custom-file-input" id="blogImage" onChange={(e) => handleChange(e, 'blogImage')} />
+                                <label class="custom-file-label" for="blogImage">Choose file</label>
+                            </div>
                         </div>
                     </div>
                     <div className="button mt-3 mb-3" style={{ width: "50%" }} onClick={handleSubmit}>
@@ -151,9 +156,37 @@ function Blog() {
 
             </div>
             <div className="blog_right" style={{ flex: "0.75" }}>
-
+                <table class="table ">
+                    <tr>
+                        <th scope="col">No.</th>
+                        <th scope="col">Tittle</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">isHome</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                    {console.log(blog)}
+                    {blog && blog.length > 0 ?
+                        blog.map((item, index) => {
+                            return (<tr>
+                                <th scope="row">{index + 1}</th>
+                                <td>{item.tittle}</td>
+                                <td>{item.description}</td>
+                                <td><img src={`${API_URL}${item.blogImage}`} width="50rem"></img></td>
+                                <td><input type="checkbox" checked={item.isHome} />
+                                </td>
+                                <td>
+                                    <div style={{ display: "flex" }}>
+                                        <p className="mr-2" onClick={() => { setSelectedBlog({ ...item, showModal: true }) }}><img src={editIcon} alt="image" style={{ width: "1.5rem" }} ></img></p>
+                                        <p onClick={() => { handleDelete(item._id) }}><img src={delIcon} alt="image" style={{ width: "1.5rem" }} ></img></p>
+                                    </div>
+                                </td>
+                            </tr>)
+                        })
+                        : ""}
+                </table>
             </div>
-        </div>
+        </div >
     )
 }
 

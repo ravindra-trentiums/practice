@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import * as actions from '../redux/action/action'
+import * as actions from '../redux/action/userAction'
 import { useSelector, useDispatch } from 'react-redux'
 function Navbar() {
     const dispatch = useDispatch()

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const Blog = mongoose.model('Blog', new mongoose.Schema(
-	{
+    {
         tittle: {
             type: String,
             required: true,
@@ -22,8 +22,11 @@ const Blog = mongoose.model('Blog', new mongoose.Schema(
             minlength: 3,
             maxlength: 255,
             trim: true
+        },
+        isHome: {
+            type: Boolean, required: true, default: false
         }
-	},
-	{ timestamps: true, versionKey: false }
+    },
+    { timestamps: true, versionKey: false }
 ));
 module.exports = Blog

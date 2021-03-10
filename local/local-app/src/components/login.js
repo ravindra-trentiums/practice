@@ -2,7 +2,7 @@ import React, { memo, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { NotificationManager } from 'react-notifications'
-import * as actions from '../redux/action/action'
+import * as actions from '../redux/action/userAction'
 
 function Login() {
     const initialState = {

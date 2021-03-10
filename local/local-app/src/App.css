@@ -14,7 +14,10 @@
 	padding: 0 15px;
 	background: url(../src/assests/header_bg.jpg) no-repeat;	
 }
-
+table, th, td {
+	border: 1px solid black;
+  }
+  
 #menu_panel {
 	clear: both;
 	width: 100%;
