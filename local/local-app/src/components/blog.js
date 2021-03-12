@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react'
 // import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import moment from "moment"
 import { NotificationManager } from 'react-notifications'
 import * as actions from "../redux/action/blogAction"
 import editIcon from "../assests/icons/edit-icon.png"
 import delIcon from "../assests/icons/Empty-icon.png"
 import BlogModal from './blogModal'
 import { API_URL } from "../config"
+import { Button } from 'react-bootstrap'
+import DatePicker from "react-datepicker"
 
 function Blog() {
     const dispatch = useDispatch()
@@ -15,13 +18,15 @@ function Blog() {
         fields: {},
         errors: {},
     }
-    const { blog } = useSelector((state) => ({
+    var { blog } = useSelector((state) => ({
         blog: state.authentication.blog,
     }))
     const [selectedBlog, setSelectedBlog] = useState({ showModal: false })
     const [refreshPage, setRefreshPage] = useState(false)
     const [isHome, setIsHome] = useState(false)
     const [blogDetails, setBlogDetails] = useState(initialState)
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
 
     const handleValidation = () => {
         let fields = blogDetails.fields
@@ -71,7 +76,29 @@ function Blog() {
             // setLoading(false)
         }
     }
-
+    const handleSearch = (e) => {
+        e.preventDefault()
+        // if (loading) return
+        try {
+            // setLoading(true)
+            console.log(startDate, "Ssss", endDate)
+            var arr = []
+            blog.map((element, i) => {
+                if (moment(startDate).format('DD/MM/yyyy') <= moment(element.createdAt).format("DD/MM/yyyy") &&
+                    moment(endDate).format('DD/MM/yyyy') >= moment(element.createdAt).format("DD/MM/yyyy")) {
+                        console.log(arr)
+                        arr.push(element)
+                }
+                if (i === blog.length - 1) {
+                    blog = arr
+                    console.log(blog)
+                }
+            })
+        } catch (error) {
+            console.log(error)
+            // setLoading(false)
+        }
+    }
     const handleChange = async (e, field) => {
         console.log(e.target.value)
         let fields = blogDetails.fields
@@ -84,23 +111,12 @@ function Blog() {
             errors[field] = undefined
         }
         setBlogDetails({ ...blogDetails, fields, errors })
-
-        // if (field == "blogImage") {
-        //     let file = await toBase64(e.target.files[0]);
-        //     let fileData = {
-        //         base_file: e.target.files[0],
-        //         name: e.target.files[0].name,
-        //         data: file.split(',')[1],
-        //     };
-        //     fields[field] = fileData
-        // } else {
-        //     fields[field] = e.target.value
-        // }
     }
     useEffect(() => {
         setRefreshPage(false)
         dispatch(actions.getBlog())
-    }, [refreshPage])
+    }, [refreshPage, dispatch])
+    console.log(startDate, endDate)
     return (
         <div id="content_panel">
             <BlogModal
@@ -156,35 +172,63 @@ function Blog() {
 
             </div>
             <div className="blog_right" style={{ flex: "0.75" }}>
-                <table class="table ">
-                    <tr>
-                        <th scope="col">No.</th>
-                        <th scope="col">Tittle</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Image</th>
-                        <th scope="col">isHome</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                    {console.log(blog)}
-                    {blog && blog.length > 0 ?
-                        blog.map((item, index) => {
-                            return (<tr>
-                                <th scope="row">{index + 1}</th>
-                                <td>{item.tittle}</td>
-                                <td>{item.description}</td>
-                                <td><img src={`${API_URL}${item.blogImage}`} width="50rem"></img></td>
-                                <td><input type="checkbox" checked={item.isHome} />
-                                </td>
-                                <td>
-                                    <div style={{ display: "flex" }}>
-                                        <p className="mr-2" onClick={() => { setSelectedBlog({ ...item, showModal: true }) }}><img src={editIcon} alt="image" style={{ width: "1.5rem" }} ></img></p>
-                                        <p onClick={() => { handleDelete(item._id) }}><img src={delIcon} alt="image" style={{ width: "1.5rem" }} ></img></p>
-                                    </div>
-                                </td>
-                            </tr>)
-                        })
-                        : ""}
-                </table>
+                <form style={{ display: "flex", height: "45px", width: "100%" }} onSubmit={handleSearch}>
+                    <div className="ml-3 mt-2" style={{ flex: "0.5" }}>
+                        <DatePicker
+                            selected={startDate}
+                            onChange={date => setStartDate(date)}
+                            placeholderText="Start Date"
+                        />
+                    </div>
+                    <div className="ml-2 mt-2" style={{ flex: "0.5" }}>
+                        <DatePicker
+                            selected={endDate}
+                            // onChange={date => setEndDate(moment(date).format('DD/MM/yyyy'))}
+                            onChange={date => setEndDate(date)}
+                            placeholderText="End Date"
+                        />
+                    </div>
+                    <div style={{ flex: "0.15" }}>
+                        <Button
+                            style={{ backgroundColor: '#6dbd8e', borderColor: '#7dce9f' }}
+                            onClick={handleSearch} >
+                            Search
+                        </Button>
+                    </div>
+                </form>
+                <div>
+                    <table class="table ">
+                        <tr>
+                            <th scope="col">No.</th>
+                            <th scope="col">Tittle</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">isHome</th>
+                            <th scope="col">Created Date</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                        {/* {console.log(blog)} */}
+                        {blog && blog.length > 0 ?
+                            blog.map((item, index) => {
+                                return (<tr>
+                                    <th scope="row">{index + 1}</th>
+                                    <td>{item.tittle}</td>
+                                    <td>{item.description}</td>
+                                    <td><img alt="" src={`${API_URL}${item.blogImage}`} width="50rem"></img></td>
+                                    <td><input type="checkbox" checked={item.isHome} />
+                                    </td>
+                                    <td>{item.createdAt.split("T")[0]}</td>
+                                    <td>
+                                        <div style={{ display: "flex" }}>
+                                            <p className="mr-2" onClick={() => { setSelectedBlog({ ...item, showModal: true }) }}><img src={editIcon} alt="" style={{ width: "1.5rem" }} ></img></p>
+                                            <p onClick={() => { handleDelete(item._id) }}><img src={delIcon} alt="" style={{ width: "1.5rem" }} ></img></p>
+                                        </div>
+                                    </td>
+                                </tr>)
+                            })
+                            : ""}
+                    </table>
+                </div>
             </div>
         </div >
     )

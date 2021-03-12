@@ -65,7 +65,7 @@ function BlogModal({ selectedBlog, setSelectedBlog }) {
             console.log(blogDetails)
             blogDetails[field] = !isHome
         } else {
-            if (field == "blogImage") {
+            if (field === "blogImage") {
                 blogDetails["file"] = e.target.files[0]
                 blogDetails[field] = e.target.value
             } else {

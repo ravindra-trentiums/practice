@@ -10,7 +10,7 @@ function Login() {
         errors: {},
     }
     const [loginDetails, setLoginDetails] = useState(initialState)
-    const [loading, setLoading] = useState(false)
+    // const [loading, setLoading] = useState(false)
     const dispatch = useDispatch()
     const history = useHistory()
 
@@ -29,7 +29,7 @@ function Login() {
         if (Object.keys(errors).length) {
             NotificationManager.error(Object.values(errors))
             setLoginDetails({ ...loginDetails, errors: errors })
-            setLoading(false)
+            // setLoading(false)
         }
         return Object.keys(errors).length > 0 ? false : true
     }
@@ -52,7 +52,7 @@ function Login() {
             }
         } catch (error) {
             console.log(error)
-            setLoading(false)
+            // setLoading(false)
         }
     }
 

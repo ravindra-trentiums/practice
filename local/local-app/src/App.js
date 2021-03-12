@@ -9,7 +9,7 @@ import RootContainer from './components/rootContainer'
 import { BrowserRouter } from 'react-router-dom'
 import store, { persistor } from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
-
+import "react-datepicker/dist/react-datepicker.css";
 
 function App() {
   return (
