@@ -4,6 +4,7 @@ const blog= require('../controllers/blog')
 module.exports = {
   configure: function (app) {
     app.post('/blog', blog.createBlog);
+    app.put('/blog', blog.updateBlog);
     app.get('/blog', blog.getBlogs);
     app.delete('/blog',blog.deleteBlog );
   }

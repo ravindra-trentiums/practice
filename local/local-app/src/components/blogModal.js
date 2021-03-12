@@ -1,4 +1,4 @@
-import React, {useState, useEffect, memo} from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import { Button, Modal } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
 import * as actions from "../redux/action/blogAction"
@@ -8,16 +8,10 @@ import { NotificationManager } from 'react-notifications'
 function BlogModal({ selectedBlog, setSelectedBlog }) {
     const dispatch = useDispatch()
     const [isHome, setIsHome] = useState(false)
-    //     const initialState = {
-    //         id: selectedBlog?._id,
-    //         tittle: selectedBlog?.tittle,
-    //         description: selectedBlog?.description,
-    //         blogImage: selectedBlog?.blogImage,
-    //         isHome: selectedBlog?.isHome,
-    // }
-    const [blogDetails, setBlogDetails] = useState([])
+   
+    const [blogDetails, setBlogDetails] = useState()
     const handleValidation = () => {
-        let fields = blogDetails.fields
+        let fields = blogDetails
         let errors = {}
         if (!fields['tittle'] || !fields['tittle'].trim()) {
             errors['tittle'] = 'Tittle cannot be empty.\n'
@@ -37,27 +31,26 @@ function BlogModal({ selectedBlog, setSelectedBlog }) {
             setBlogDetails(selectedBlog)
         }
     }, [selectedBlog])
+
     const handleSubmit = (e) => {
+        console.log(e, "object")
         e.preventDefault()
         // if (loading) return
         try {
             // setLoading(true)
             if (handleValidation()) {
-                const fileInput = document.querySelector("#blogImage");
                 const body = new FormData();
-                Object.keys(blogDetails.fields).forEach(k => {
-                    body.append(k, blogDetails.fields[k]);
+                Object.keys(blogDetails).forEach(k => {
+                    body.append(k, blogDetails[k]);
                 });
                 body.append("id", selectedBlog._id)
-                body.append("file", fileInput.files[0]);
                 dispatch(actions.editBlog(body
                 )).then(res => {
                     if (res && res.status === 200) {
-                        // setRefreshPage(true)
+                        setSelectedBlog({ ...selectedBlog, showModal: false })
                     } else {
-                        // setRefreshPage(true)
+                        setSelectedBlog({ ...selectedBlog, showModal: false })
                     }
-                }).catch(err => {
                 })
             }
         } catch (error) {
@@ -66,15 +59,20 @@ function BlogModal({ selectedBlog, setSelectedBlog }) {
         }
     }
     const handleChange = async (e, field) => {
-        let fields = blogDetails
-        console.log(blogDetails, "dd", e.target.value)
+        console.log(field, "testibd", e.target.files)
         if (field === "isHome") {
             isHome === true ? (setIsHome(false)) : (setIsHome(true))
-            fields["isHome"] = !isHome
+            console.log(blogDetails)
+            blogDetails[field] = !isHome
         } else {
-            fields[field] = e.target.value
+            if (field == "blogImage") {
+                blogDetails["file"] = e.target.files[0]
+                blogDetails[field] = e.target.value
+            } else {
+                blogDetails[field] = e.target.value
+            } 
         }
-        setBlogDetails({ ...blogDetails, fields })
+        setBlogDetails({ ...blogDetails, blogDetails })
     }
 
     return (
@@ -119,11 +117,22 @@ function BlogModal({ selectedBlog, setSelectedBlog }) {
                             <div className="col-md-12 mt-3" style={{ display: "flex", flexDirection: "column" }}>
                                 <div className="row ml-4 mt-2">
                                     <div class="custom-file" style={{ width: "80%" }}>
-                                        <input type="file" class="custom-file-input" id="blogImage" onChange={(e) => { }} />
-                                        <label class="custom-file-label" for="blogImage">{blogDetails?.blogImage?.split("/")[3]}</label>
+                                        <input type="file" class="custom-file-input" id="blogImage" onChange={(e) => handleChange(e, 'blogImage')} />
+                                        <label class="custom-file-label" for="blogImage">Choose file</label>
                                     </div>
                                 </div>
                             </div>
+                            {/* <div className="col-md-12 mt-3 ">
+                                <Button variant="secondary" onClick={() => setSelectedBlog({ ...selectedBlog, showModal: false })}>
+                                    Close
+                            </Button>
+                                <Button
+                                    style={{ backgroundColor: '#6dbd8e', borderColor: '#7dce9f' }}
+                                    // onClick={() => setSelectedBlog({ ...selectedBlog, showModal: false })}
+                                    onClick={handleSubmit}>
+                                    Create
+                            </Button>
+                            </div> */}
                         </div>
                     </form>
                 </Modal.Body>
@@ -133,9 +142,8 @@ function BlogModal({ selectedBlog, setSelectedBlog }) {
                     </Button>
                     <Button
                         style={{ backgroundColor: '#6dbd8e', borderColor: '#7dce9f' }}
-                        onClick={() => setSelectedBlog({ ...selectedBlog, showModal: false })}
-                    >
-                        Create
+                        onClick={handleSubmit}>
+                        Update
                     </Button>
                 </Modal.Footer>
             </Modal>

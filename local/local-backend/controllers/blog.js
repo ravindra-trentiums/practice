@@ -4,6 +4,7 @@ const path = require('path');
 const uploading = require('../validation/upload')
 module.exports = {
     createBlog: createBlog,
+    updateBlog: updateBlog,
     getBlogs: getBlogs,
     deleteBlog: deleteBlog
 };
@@ -57,7 +58,63 @@ async function createBlog(req, res, next) {
         return res.status(500).json(errors.message);
     }
 }
-
+async function updateBlog(req, res, next) {
+    try {
+        let reqBody = req.body
+        if(reqBody.id){
+            let vUser = validate.VALIDATE_BLOG.validateBlogReq(reqBody);
+            if (vUser.refused) {
+                if (!vUser.errors) {
+                  return res.status(400).send(
+                        {
+                            message: null
+                        }
+                    );
+                } else {
+                    return res.status(400).send(
+                        {
+                            message: vUser.errors.request,
+                        }
+                    );
+                }
+            }
+    
+            if (req.files) {
+                let fileDestination = path.join(
+                    __dirname,
+                    `../public/image/blog`
+                );
+                let columnName = req.files.file;
+                const data = await uploading.uploadImage(
+                    req,
+                    res,
+                    next,
+                    fileDestination,
+                    columnName
+                );
+                reqBody.blogImage = data;
+            }else{
+                delete reqBody.blogImage
+            }
+            let id=reqBody.id
+            delete reqBody.id
+            let blog = await Blog.findByIdAndUpdate(id,reqBody)
+            if (blog) {
+                res.json({ message: "Blog updated successfully." })
+            } else {
+                res.status(400).send(
+                    { message: 'Error while updating blog.' }
+                );
+            }
+        }else{
+            res.status(400).send(
+                { message: 'Please send required field Blog id.' }
+            );
+        }
+    } catch (errors) {
+        return res.status(500).json(errors.message);
+    }
+}
 async function deleteBlog(req, res, next) {
     try {
         let reqBody = req.body

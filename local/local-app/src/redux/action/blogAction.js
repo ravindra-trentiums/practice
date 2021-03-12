@@ -45,7 +45,7 @@ export const editBlog = (body) => dispatch => {
     //     title: req.body.title,
     //     body: req.body.body
     // }, { new: true });
-    return axios.post(
+    return axios.put(
         `${API_URL}/app/blog`,
         body,
         {
@@ -56,7 +56,8 @@ export const editBlog = (body) => dispatch => {
         }
     ).then(response => {
         if (response && response.status === 200) {
-            NotificationManager.success('Blog created successfully.');
+            dispatch(getBlog())
+            NotificationManager.success('Blog updated successfully.');
             return response
         } else {
             NotificationManager.error(
@@ -75,6 +76,7 @@ export const editBlog = (body) => dispatch => {
 }
 
 export const getBlog = () => dispatch => {
+    console.log("heree")
     dispatch({ type: Type.GET_BLOG_REQUEST })
     return Api.get(Urls.blog).then(response => {
         if (response && response.status === 200) {
