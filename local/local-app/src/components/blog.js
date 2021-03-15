@@ -25,9 +25,13 @@ function Blog() {
     const [refreshPage, setRefreshPage] = useState(false)
     const [isHome, setIsHome] = useState(false)
     const [blogDetails, setBlogDetails] = useState(initialState)
+    const [blogTableDetails, setBlogTableDetails] = useState(initialState)
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
 
+    useEffect(() => {
+        setBlogTableDetails(blog)
+    }, [blog])
     const handleValidation = () => {
         let fields = blogDetails.fields
         let errors = {}
@@ -76,24 +80,21 @@ function Blog() {
             // setLoading(false)
         }
     }
-    const handleSearch = (e) => {
+    const handleSearch =async (e) => {
         e.preventDefault()
         // if (loading) return
         try {
             // setLoading(true)
             console.log(startDate, "Ssss", endDate)
             var arr = []
-            blog.map((element, i) => {
+            await blog.forEach((element, i) => {
                 if (moment(startDate).format('DD/MM/yyyy') <= moment(element.createdAt).format("DD/MM/yyyy") &&
                     moment(endDate).format('DD/MM/yyyy') >= moment(element.createdAt).format("DD/MM/yyyy")) {
-                        console.log(arr)
                         arr.push(element)
                 }
-                if (i === blog.length - 1) {
-                    blog = arr
-                    console.log(blog)
-                }
             })
+            setBlogTableDetails(arr);
+
         } catch (error) {
             console.log(error)
             // setLoading(false)
@@ -207,9 +208,8 @@ function Blog() {
                             <th scope="col">Created Date</th>
                             <th scope="col">Action</th>
                         </tr>
-                        {/* {console.log(blog)} */}
-                        {blog && blog.length > 0 ?
-                            blog.map((item, index) => {
+                        {blogTableDetails && blogTableDetails.length > 0 ?
+                            blogTableDetails.map((item, index) => {
                                 return (<tr>
                                     <th scope="row">{index + 1}</th>
                                     <td>{item.tittle}</td>

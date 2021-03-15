@@ -123,10 +123,10 @@ async function deleteBlog(req, res, next) {
             let blog = await Blog.findByIdAndDelete(reqBody.id)
             if (blog) {
                 console.log(blog)
-                res.json({ message: "Blog created successfully." })
+                res.json({ message: "Blog deleted successfully." })
             } else {
                 res.status(400).send(
-                    { message: 'Error while creating blog.' }
+                    { message: 'Error while deleting blog.' }
                 );
             }
         }else{
@@ -148,7 +148,7 @@ async function getBlogs(req, res, next) {
             res.json(blog)
         } else {
             res.status(400).send(
-                { message: 'Error while creating blog.' }
+                { message: 'Error while listing blog.' }
             );
         }
     } catch (errors) {

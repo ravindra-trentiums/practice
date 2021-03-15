@@ -1,5 +1,6 @@
 
 const blog= require('../controllers/blog')
+const comment= require('../controllers/comment')
 
 module.exports = {
   configure: function (app) {
@@ -7,6 +8,10 @@ module.exports = {
     app.put('/blog', blog.updateBlog);
     app.get('/blog', blog.getBlogs);
     app.delete('/blog',blog.deleteBlog );
+    app.post('/comment', comment.createComment);
+    app.put('/comment', comment.updateComment);
+    app.get('/comment', comment.getComment);
+    app.delete('/comment',comment.deleteComment );
   }
 }   
 function ensureAuthenticated(req, res, next) {
