@@ -10,6 +10,7 @@ export function authentication(state = initialState, action) {
     case Type.POST_LOGIN_SUCCESS:
       state = {
         ...state,
+        user:action.payload.data.id,
         token: action.payload.data.token
       }
       return state

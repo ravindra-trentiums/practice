@@ -107,12 +107,22 @@ async function deleteComment(req, res, next) {
 }
 async function getComment(req, res, next) {
     try {
-        let comment = await Comment.find({})
-        if (comment) {
-            res.json(comment)
+        if (req.params.id) {
+            let comment = await Comment.find({ blogId: req.params.id }).populate("User")
+            if (comment) {
+                let data = {
+                    count: comment.length,
+                    data: comment
+                }
+                res.json(data)
+            } else {
+                res.status(400).send(
+                    { message: 'Error while listing comment.' }
+                );
+            }
         } else {
             res.status(400).send(
-                { message: 'Error while listing comment.' }
+                {message: 'Please specify id of blog' },
             );
         }
     } catch (errors) {

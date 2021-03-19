@@ -13,7 +13,8 @@ export const Urls = {
   baseURL,
   login: '/login',
   register: '/register',
-  blog: '/app/blog'
+  blog: '/app/blog',
+  comment: '/app/comment'
 };
 
 Api.interceptors.request.use((config) => {

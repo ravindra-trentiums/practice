@@ -17,7 +17,26 @@
 table, th, td {
 	border: 1px solid black;
   }
+  .cmt-button {
+	padding: 15px 25px;
+	font-size: 14px;
+	text-align: center;
+	cursor: pointer;
+	outline: none;
+	color: #fff;
+	background-color: #3da1ac;
+	border: none;
+	border-radius: 20px;
+	/* box-shadow: 0 9px #999; */
+  }
   
+  .cmt-button:hover {background-color: #11616a}
+  
+  .cmt-button:active {
+	background-color: #11616a;
+	/* box-shadow: 0 5px #666; */
+	transform: translateY(4px);
+  }
 #menu_panel {
 	clear: both;
 	width: 100%;
@@ -120,6 +139,7 @@ color: white;
 	margin: 0 auto;
 	color: #ffffff;
 	background: url(../src/assests/content_bg.jpg) repeat;
+	box-shadow: inset 150px 0 150px -150px #333,inset -150px 0 150px -150px #333;
 }
 a:link, a:visited { color: #f4d153; text-decoration:none;} 
 a:active, a:hover { color: #f4d153; text-decoration: underline;}
@@ -224,9 +244,9 @@ h1 {
 .leave_comment_section .leave_comment_section_title {
   color: #ded153;
   height: 40px;
-  font-size: 25px;
+  font-size: 22px;
   padding: 0px;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
 }
 .leave_comment_section_title{
   border-bottom: 1px dotted #666;

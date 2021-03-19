@@ -35,7 +35,7 @@ async function login(req, res, next) {
                 let token = jwt.sign(payload, 'tokenKey', {
                     expiresIn: 30 * 24 * 60 * 60,
                 });
-                res.json({ token: token })
+                res.json({ id: user._id, token: token })
             } else {
                 res.status(400).send(
                     { message: 'Error while login.' }
@@ -51,7 +51,6 @@ async function register(req, res, next) {
         let reqBody = req.body
         let vUser = validate.VALIDATE_REGISTER.validateRegisterReq(reqBody);
         if (vUser.refused) {
-            console.log(vUser, "kkkk")
             if (!vUser.errors) {
                 res.status(400).send(
                     {

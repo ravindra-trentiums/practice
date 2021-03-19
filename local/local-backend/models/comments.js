@@ -1,28 +1,16 @@
 const mongoose = require('mongoose');
 
 const Comment = mongoose.model('Comment', new mongoose.Schema(
-	{
-        blogID: {
-            type: String,
-            required: true,
-            minlength: 3,
-            maxlength: 255,
-            trim: true
-        },
-        email: {
-            type: String,
-            required: true,
-            minlength: 3,
-            maxlength: 255,
-            trim: true
-        },
+    {
+        blogId: { type: mongoose.Schema.Types.ObjectId, ref: "Blog" },
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: "Blog" },
         comment: {
             type: String,
             required: true,
             minlength: 3,
             trim: true
         }
-	},
-	{ timestamps: true, versionKey: false }
+    },
+    { timestamps: true }
 ));
 module.exports = Comment

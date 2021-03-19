@@ -18,8 +18,9 @@ function Blog() {
         fields: {},
         errors: {},
     }
-    var { blog } = useSelector((state) => ({
+    var { blog, user } = useSelector((state) => ({
         blog: state.authentication.blog,
+        user: state.authentication.user,
     }))
     const [selectedBlog, setSelectedBlog] = useState({ showModal: false })
     const [refreshPage, setRefreshPage] = useState(false)
@@ -63,7 +64,7 @@ function Blog() {
                 Object.keys(blogDetails.fields).forEach(k => {
                     body.append(k, blogDetails.fields[k]);
                 });
-
+                body.append("userId", user)
                 body.append("file", fileInput.files[0]);
                 dispatch(actions.addBlog(body
                 )).then(res => {
@@ -117,7 +118,6 @@ function Blog() {
         setRefreshPage(false)
         dispatch(actions.getBlog())
     }, [refreshPage, dispatch])
-    console.log(startDate, endDate)
     return (
         <div id="content_panel">
             <BlogModal

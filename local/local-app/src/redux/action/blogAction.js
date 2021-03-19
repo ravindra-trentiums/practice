@@ -76,7 +76,6 @@ export const editBlog = (body) => dispatch => {
 }
 
 export const getBlog = () => dispatch => {
-    console.log("heree")
     dispatch({ type: Type.GET_BLOG_REQUEST })
     return Api.get(Urls.blog).then(response => {
         if (response && response.status === 200) {

@@ -9,11 +9,8 @@ module.exports = {
     var missingParams = '';
   
     if (typeof body === 'object' && body !== null && Object.keys(body).length) {
-      if (body.email == null) {
-        missingParams = addToMissingParams(missingParams, 'email');
-      }
-      if (body.blogID == null) {
-        missingParams = missingParams + ', blogID';
+      if (body.blogId == null) {
+        missingParams = missingParams + ', blogId';
       }
       if (body.comment == null) {
         missingParams = missingParams + ', comment';

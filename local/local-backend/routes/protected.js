@@ -10,7 +10,7 @@ module.exports = {
     app.delete('/blog',blog.deleteBlog );
     app.post('/comment', comment.createComment);
     app.put('/comment', comment.updateComment);
-    app.get('/comment', comment.getComment);
+    app.get('/comment/:id', comment.getComment);
     app.delete('/comment',comment.deleteComment );
   }
 }   

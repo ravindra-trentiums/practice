@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const Blog = mongoose.model('Blog', new mongoose.Schema(
     {
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
         tittle: {
             type: String,
             required: true,
@@ -27,6 +28,6 @@ const Blog = mongoose.model('Blog', new mongoose.Schema(
             type: Boolean, required: true, default: false
         }
     },
-    { timestamps: true, versionKey: false }
+    { timestamps: true }
 ));
 module.exports = Blog
