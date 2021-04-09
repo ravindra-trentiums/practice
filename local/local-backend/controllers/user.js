@@ -33,7 +33,7 @@ async function login(req, res, next) {
                     email: user.email
                 }
                 let token = jwt.sign(payload, 'tokenKey', {
-                    expiresIn: 30 * 24 * 60 * 60,
+                    expiresIn: 30 * 24 * 60 * 60, 
                 });
                 res.json({ id: user._id, token: token })
             } else {

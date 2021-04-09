@@ -15,7 +15,9 @@ module.exports = {
       if (body.comment == null) {
         missingParams = missingParams + ', comment';
       }
-  
+      if (body.userId == null) {
+        missingParams = missingParams + ', userId';
+      }
       if (missingParams.trim().length > 0) {
         errors.request = `Invalid request. Body is missing arguments ${missingParams}.`;
       }

@@ -87,7 +87,7 @@ async function deleteComment(req, res, next) {
         let reqBody = req.body
         console.log(req.body)
         if(reqBody.id){
-            let blog = await Blog.findByIdAndDelete(reqBody.id)
+            let blog = await Comment.findByIdAndDelete(reqBody.id)
             if (blog) {
                 console.log(blog)
                 res.json({ message: "Comment deleted successfully." })
